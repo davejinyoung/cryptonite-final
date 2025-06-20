@@ -2,6 +2,7 @@ package org.uranus.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 public class AdminPanelPage extends PageBase {
     public AdminPanelPage(WebDriver webDriver) {
@@ -26,8 +27,13 @@ public class AdminPanelPage extends PageBase {
     public void editRole(String newRole) {
         click(staffAccountsTab);
         click(btnEditRoleStaff);
-        click(roleNewAccount);
-        select(listStafRolesField, newRole);
+        By roleDropdown = By.cssSelector("select.form-select");
+        WebElement dropdown = webDriver.findElement(roleDropdown);
+        String value = newRole.toUpperCase();
+        ((org.openqa.selenium.JavascriptExecutor) webDriver).executeScript(
+            "arguments[0].value = arguments[1]; arguments[0].dispatchEvent(new Event('change'));",
+            dropdown, value
+        );
         click(saveEditIcon);
     }
 

@@ -45,7 +45,7 @@
           <ng-template pTemplate="input">
 
             <select class="form-select" [(ngModel)]="account.role" id="signUpRole">
-              <option *ngFor="let role of roles" [value]='role.value'>
+              <option *ngFor="let role of roles" [value]='role.displayName.toUpperCase()'>
                 {{role.displayName}}
               </option>
             </select>

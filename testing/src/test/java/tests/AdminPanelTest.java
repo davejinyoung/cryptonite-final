@@ -10,7 +10,7 @@ public class AdminPanelTest extends TestBase {
     AdminPanelPage adminPanelPage;
 
 
-    @Test(priority = 3)
+    @Test(priority = 3, description = "Admin can successfully change a staff's role to user.")
     public void checkThatEditRoleOfUseriIsWorkingSuccessfuly() {
         homePage = new HomePage(webDriver);
         adminPanelPage = new AdminPanelPage(webDriver);

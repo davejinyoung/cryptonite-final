@@ -38,13 +38,8 @@ export class StaffAccountComponent implements OnInit{
       next: (roles) => {
         this.spinnerService.hide();
 
-        // Modified this for two having two different cases
-        this.roles = roles.map(role => ({
-          displayName: role.displayName.charAt(0).toUpperCase() + role.displayName.slice(1).toLowerCase(),
-          value: role.displayName.toUpperCase()
-        }));
+        this.roles = roles;
       },
-
       error: (error) => {
         this.spinnerService.hide();
 
