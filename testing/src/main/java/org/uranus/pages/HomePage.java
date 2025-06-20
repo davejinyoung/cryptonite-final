@@ -19,10 +19,11 @@ public class HomePage extends PageBase {
     By signUpSubmitBtn = By.cssSelector("app-sign-up-page form .btn-submit");
    public By toastMsg=By.cssSelector(".p-toast-detail");
    public By closeToastMsg=By.cssSelector(".p-toast-icon-close");
-   By emailLoginField=By.cssSelector("app-header #signUp app-login-page .auth-form #loginEmail");
+   public By emailLoginField=By.cssSelector("app-header #signUp app-login-page .auth-form #loginEmail");
    By passwordLoginField=By.cssSelector("app-header #signUp app-login-page .auth-form #loginPassword");
    By loginSubmitBtn=By.cssSelector("app-header #signUp app-login-page .auth-form button");
    By adminPanelModule=By.cssSelector("div #collapsibleNavId ul li:nth-child(8) a");
+   public By tryEncryptionBtn = By.xpath("/html/body/app-root/app-layout/div/app-home/div[1]/div[1]/div/div/div[1]/div/div/a[1]");
 
 
 
