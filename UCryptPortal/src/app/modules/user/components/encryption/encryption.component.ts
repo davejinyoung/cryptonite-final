@@ -118,8 +118,8 @@ export class EncryptionComponent {
     })
   }
 
-  copyKey(){
-    let keyValue = this.form.get('encryptionKey')?.value;
+  copyKey(isFile?: boolean){
+    let keyValue = (isFile)? this.fileForm.get('encryptionKey')?.value: this.form.get('encryptionKey')?.value;
     navigator.clipboard.writeText(keyValue)
     .then(() => console.log('Text copied!'))
     .catch(err => console.error('Failed to copy text:', err));
