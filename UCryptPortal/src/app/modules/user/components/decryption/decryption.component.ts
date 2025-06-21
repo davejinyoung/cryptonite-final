@@ -193,7 +193,7 @@ export class DecryptionComponent {
     if(isFile){
       this.fileSubmitted = true;
       if(this.fileForm.valid){
-        this.fileEncryptionObject.key= this.fileForm.value.encryptionKey;
+        this.fileEncryptionObject.key = this.fileForm.get('encryptionKeySelected')?.value;
         this.fileEncryptionObject.encryptionAlgorithm= this.fileForm.value.encryptionTechnique;
         this.decryptFile(this.fileEncryptionObject);
       }
