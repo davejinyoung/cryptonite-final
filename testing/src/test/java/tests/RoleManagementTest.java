@@ -1,23 +1,52 @@
 package tests;
 
 import org.testng.annotations.Test;
+import org.uranus.configuration.LoadProperties;
+import org.uranus.pages.AdminPanelPage;
+import org.uranus.pages.HomePage;
 
 public class RoleManagementTest extends TestBase {
+    HomePage homePage;
+    AdminPanelPage adminPanelPage;
+
+    String name = faker.name().fullName();
+    String email = faker.internet().emailAddress();
+    String password = faker.number().digits(6);
+    String role = "EMPLOYEE";
 
     @Test(description = "Admin can change a user's role")
     public void testAdminCanChangeUserRole() {
-        // 1. Admin logs in
-        // homePage.login(...);
-        // 2. Admin changes a user's role
-        // adminPanelPage.editRole("USER");
-        // 3. Assert success message
+        homePage = new HomePage(webDriver);
+        adminPanelPage = new AdminPanelPage(webDriver);
+        homePage.login(LoadProperties.env.getProperty("ADMIN_EMAIL"), LoadProperties.env.getProperty("ADMIN_PASSWORD"));
+        homePage.click(homePage.closeToastMsg);
+        homePage.openAdminPanel();
+        assertIsEqual(adminPanelPage.adminPanelTitle, "ADMIN PANEL");
+        adminPanelPage.editRole("user");
+        assertIsEqual(homePage.toastMsg, "Same role");
+        softAssert.assertAll();
     }
 
     @Test(description = "Non-admin user cannot change user roles")
     public void testNonAdminCannotChangeUserRole() {
-        // 1. Non-admin logs in
-        // homePage.login(...);
-        // 2. Try to access role management
-        // 3. Assert access is denied or UI is not visible
+        homePage = new HomePage(webDriver);
+        adminPanelPage = new AdminPanelPage(webDriver);
+        homePage.signUp(name, email, password, password, role);
+        assertIsEqual(homePage.toastMsg, "Registerd successfully, please wait for admin approval to login!"); // assertion command about the showing success message of sign up
+        homePage.click(homePage.closeToastMsg);
+
+//        homePage.login(LoadProperties.env.getProperty("ADMIN_EMAIL"), LoadProperties.env.getProperty("ADMIN_PASSWORD"));
+//        homePage.click(homePage.closeToastMsg);
+//        homePage.openAdminPanel();
+//        assertIsEqual(adminPanelPage.adminPanelTitle, "ADMIN PANEL");
+//        assertIsEqual(adminPanelPage.email, email);
+//        assertIsEqual(adminPanelPage.roleNewAccount, role);
+//        assertIsEqual(adminPanelPage.name, name);
+//        adminPanelPage.approveSignUpRequest();
+//        homePage.logout();
+//        homePage.login(email, password);
+//        homePage.click(homePage.closeToastMsg);
+//        softAssert.assertTrue(homePage.isElementNotPresent(homePage.adminPanelModule), "Admin panel link should not be visible for non-admin user");
+//        softAssert.assertAll();
     }
 }

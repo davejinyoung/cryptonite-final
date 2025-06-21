@@ -45,12 +45,12 @@ public class PageBase {
     }
 
     /* custom method for sendKey action with waiting to avoid element loading issues */
-    public void type(By by, String Word) {
+    public void type(By by, Object word) {
         webDriverWait.until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOfElementLocated(by)));
         webElement = webDriver.findElement(by);
         webDriverWait.until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOf(webElement)));
         webElement.clear();
-        webElement.sendKeys(Word);
+        webElement.sendKeys(word.toString());
     }
 
     /* custom method for typing action with waiting to avoid element loading issues */
@@ -70,10 +70,6 @@ public class PageBase {
         js.executeScript("arguments[0].scrollIntoView();", webElement);
     }
 
-    // Finds an element using the specified locator and selects an option by its value.
-    // <param name="by">The locator used to find the element.</param>
-    // <param name="value">The value of the option to be selected.</param>
-
     public void select(By by, String value) {
         webDriverWait.until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOfElementLocated(by)));
         webElements = webDriver.findElements(by);
@@ -82,5 +78,26 @@ public class PageBase {
         select.selectByValue(value);
     }
 
+    public void uploadFile(By by, String filePath) {
+        webDriverWait.until(ExpectedConditions.presenceOfElementLocated(by));
+        webElement = webDriver.findElement(by);
+        webElement.sendKeys(filePath);
+    }
 
+    public String getAttributeValue(By by){
+        webDriverWait.until(ExpectedConditions.presenceOfElementLocated(by));
+        webDriverWait.until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOfElementLocated(by)));
+        webElement =webDriver.findElement(by);
+        webDriverWait.until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOf(webElement)));
+        //logger.info("Helllllllllllllllllllllllllllllllllllllllllll output at Encryption: {}", webElement.getAttribute("value"));
+        return webElement.getAttribute("value");
+    }
+    public String getByGetText(By by){
+        webDriverWait.until(ExpectedConditions.presenceOfElementLocated(by));
+        webDriverWait.until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOfElementLocated(by)));
+        webElement =webDriver.findElement(by);
+        webDriverWait.until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOf(webElement)));
+        //logger.info("Helllllllllllllllllllllllllllllllllllllllllll output at Encryption: {}", webElement.getAttribute("value"));
+        return webElement.getText();
+    }
 }

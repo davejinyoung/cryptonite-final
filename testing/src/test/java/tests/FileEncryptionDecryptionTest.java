@@ -2,33 +2,45 @@ package tests;
 
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+import org.uranus.configuration.LoadProperties;
+import org.uranus.pages.DecryptionPage;
+import org.uranus.pages.EncryptionPage;
+import org.uranus.pages.HomePage;
+
 public class FileEncryptionDecryptionTest extends TestBase {
 
-    @Test(description = "User can encrypt a file")
-    public void testUserCanEncryptFile() {
-        // 1. User logs in
-        // homePage.login(...);
-        // 2. User uploads and encrypts a file
-        // userPage.uploadFile(...);
-        // userPage.encryptFile(...);
-        // 3. Assert encryption success
+    HomePage homePage;
+    EncryptionPage encryptionPage;
+    DecryptionPage decryptionPage;
+    public static String outputText;
+    public static List<String> outputs = new ArrayList<>();
+
+    @Test(priority = 0)
+    public void checkThatEncryptionnWorks(){
+        //System.out.println("Plain text before encryption: "+outputText);
+        homePage = new HomePage(webDriver);
+        encryptionPage = new EncryptionPage(webDriver);
+        homePage.login(LoadProperties.env.getProperty("ADMIN_EMAIL"), LoadProperties.env.getProperty("ADMIN_PASSWORD"));
+        homePage.openService("encryption");
+        assertIsEqual(encryptionPage.encryptionPageId, "File & Text Encryption");
+        outputs = encryptionPage.encryption(LoadProperties.env.getProperty("plainText"), LoadProperties.env.getProperty("encryptType"));
+        // outputText = encryptionPage.getOuputText();
+        //System.out.println("Key: "+outputs.get(0)+"\n Key Save Toast MSG: "+outputs.get(1)+"\n Encryption Toast MSG: "+outputs.get(2)+"\n Output Text: "+outputs.get(3));
+        assertIsEqualByStringOnly(outputs.get(1), "Key is Saved Successfully");
+        assertIsEqualByStringOnly(outputs.get(2), "data encrypted successfully");
+        softAssert.assertAll();
     }
 
-    @Test(description = "User can decrypt an encrypted file")
-    public void testUserCanDecryptFile() {
-        // 1. User logs in
-        // homePage.login(...);
-        // 2. User decrypts a file
-        // userPage.decryptFile(...);
-        // 3. Assert decrypted content matches original
-    }
-
-    @Test(description = "Incorrect decryption key results in an error")
-    public void testIncorrectDecryptionKeyError() {
-        // 1. User logs in
-        // homePage.login(...);
-        // 2. User tries to decrypt with wrong key
-        // userPage.decryptFileWithWrongKey(...);
-        // 3. Assert error message is shown
+    @Test(priority = 1)
+    public void checkThatDecryptionnWorks(){
+        homePage = new HomePage(webDriver);
+        decryptionPage = new DecryptionPage(webDriver);
+        homePage.openService("decryption");
+        assertIsEqual(decryptionPage.decryptionPageId, "File & Text Decryption");
+        outputText = decryptionPage.decryption(outputs.get(3), LoadProperties.env.getProperty("encryptType"), outputs.get(0));
+        assertIsEqualByStringOnly(outputText, LoadProperties.env.getProperty("plainText"));
+        softAssert.assertAll();
     }
 }

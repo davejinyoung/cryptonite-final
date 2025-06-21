@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="SignUp">
-    <test name="Test1">
+<suite name="UCrypt Test Suite">
+    <test name="All Tests">
         <classes>
             <class name="tests.SignUpTest"></class>
             <class name="tests.AdminPanelTest"></class>
+            <class name="tests.AccountCreationActivationTest"></class>
+            <class name="tests.RoleManagementTest"></class>
+            <class name="tests.FileEncryptionDecryptionTest"></class>
+            <class name="tests.FileVisibilityTest"></class>
+            <class name="tests.BugFixRoleDropdownTest"></class>
         </classes>
-    </test><!-- Test -->
-</suite><!-- Test -->
+    </test>
+</suite>

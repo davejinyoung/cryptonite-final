@@ -30,6 +30,7 @@ public class SignUpTest extends TestBase {
         homePage = new HomePage(webDriver);
         adminPanelPage = new AdminPanelPage(webDriver);
         homePage.login(LoadProperties.env.getProperty("ADMIN_EMAIL"), LoadProperties.env.getProperty("ADMIN_PASSWORD"));
+        homePage.click(homePage.closeToastMsg);
         homePage.openAdminPanel();
         assertIsEqual(adminPanelPage.adminPanelTitle, "ADMIN PANEL");
         assertIsEqual(adminPanelPage.email, email);

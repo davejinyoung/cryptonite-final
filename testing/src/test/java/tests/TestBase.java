@@ -28,8 +28,6 @@ public class TestBase {
     WebElement webElement;
     Faker faker = new Faker();
 
-
-
     // Sets up the necessary web driver and url product under test for the test to run.
     @BeforeClass
     public void startDriver() {
@@ -56,8 +54,11 @@ public class TestBase {
             return;
         }
     }
-
-
-
-
+    public void assertIsEqualByStringOnly(String actual, String expected) {
+        if (expected != null) {
+            softAssert.assertEquals(actual, expected);
+        } else {
+            return;
+        }
+    }
 }

@@ -24,8 +24,13 @@ public class HomePage extends PageBase {
    By loginSubmitBtn=By.cssSelector("app-header #signUp app-login-page .auth-form button");
    By adminPanelModule=By.cssSelector("div #collapsibleNavId ul li:nth-child(8) a");
    public By tryEncryptionBtn = By.xpath("/html/body/app-root/app-layout/div/app-home/div[1]/div[1]/div/div/div[1]/div/div/a[1]");
-
-
+    By tryUcryptBtn = By.xpath("/html/body/app-root/app-layout/app-header/header/nav/div/div/ul/li[6]/a");
+    By encryptionChoice = By.xpath("/html/body/app-root/app-layout/app-header/header/nav/div/div/ul/li[6]/div/a[1]");
+    By decryptionChoice = By.xpath("/html/body/app-root/app-layout/app-header/header/nav/div/div/ul/li[6]/div/a[2]");
+    By loginEmailField = By.xpath("/html/body/app-root/app-layout/app-header/div[2]/div/app-login-page/div/div[2]/form/div[1]/input");
+    By loginPasswordField = By.xpath("/html/body/app-root/app-layout/app-header/div[2]/div/app-login-page/div/div[2]/form/div[2]/input");
+    By homePageToastMsg = By.cssSelector(".p-toast-detail");
+    public By closeLoginModal = By.cssSelector(".show .btn-close");
 
     //Method to sign up a user with the provided information.
     public void signUp(String name , String email, String password, String confPassword, String role) {
@@ -42,12 +47,31 @@ public class HomePage extends PageBase {
     //Method to log in a user with the provided information.
     public void login(String email, String password){
         click(loginBtn);
-        type(emailLoginField,email);
-        type(passwordLoginField,password);
+        type(loginEmailField,email);
+        type(loginPasswordField,password);
         click(loginSubmitBtn);
     }
 
     public void openAdminPanel(){
         click(adminPanelModule);
+    }
+
+    public void closeLoginModal() {
+        click(closeLoginModal);
+    }
+
+    public void closeToastMsg() {
+        click(closeToastMsg);
+    }
+
+    public void openService(String service){
+        click(tryUcryptBtn);
+        if(service.equals("encryption")){
+            click(encryptionChoice);
+        }
+        else{
+            click(decryptionChoice);
+        }
+
     }
 }
