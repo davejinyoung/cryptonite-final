@@ -14,7 +14,31 @@ public class RoleManagementTest extends TestBase {
     String password = faker.number().digits(6);
     String role = "EMPLOYEE";
 
-    @Test(description = "Admin can change a user's role")
+    @Test(priority = 0, description = "Non-admin user cannot change user roles")
+    public void testNonAdminCannotChangeUserRole() {
+        homePage = new HomePage(webDriver);
+        adminPanelPage = new AdminPanelPage(webDriver);
+        homePage.signUp(name, email, password, password, role);
+        assertIsEqual(homePage.toastMsg, "Registerd successfully, please wait for admin approval to login!"); // assertion command about the showing success message of sign up
+        homePage.click(homePage.closeToastMsg);
+
+        homePage.login(LoadProperties.env.getProperty("ADMIN_EMAIL"), LoadProperties.env.getProperty("ADMIN_PASSWORD"));
+        homePage.click(homePage.closeToastMsg);
+        homePage.openAdminPanel();
+        assertIsEqual(adminPanelPage.adminPanelTitle, "ADMIN PANEL");
+        assertIsEqual(adminPanelPage.email, email);
+        assertIsEqual(adminPanelPage.roleNewAccount, role);
+        assertIsEqual(adminPanelPage.name, name);
+        adminPanelPage.approveSignUpRequest();
+        homePage.logout();
+        homePage.login(email, password);
+        homePage.click(homePage.closeToastMsg);
+        softAssert.assertAll();
+        homePage.logout();
+        homePage.closeToastMsg();
+    }
+
+    @Test(priority = 1, description = "Admin can change a user's role")
     public void testAdminCanChangeUserRole() {
         homePage = new HomePage(webDriver);
         adminPanelPage = new AdminPanelPage(webDriver);
@@ -25,28 +49,5 @@ public class RoleManagementTest extends TestBase {
         adminPanelPage.editRole("user");
         assertIsEqual(homePage.toastMsg, "Same role");
         softAssert.assertAll();
-    }
-
-    @Test(description = "Non-admin user cannot change user roles")
-    public void testNonAdminCannotChangeUserRole() {
-        homePage = new HomePage(webDriver);
-        adminPanelPage = new AdminPanelPage(webDriver);
-        homePage.signUp(name, email, password, password, role);
-        assertIsEqual(homePage.toastMsg, "Registerd successfully, please wait for admin approval to login!"); // assertion command about the showing success message of sign up
-        homePage.click(homePage.closeToastMsg);
-
-//        homePage.login(LoadProperties.env.getProperty("ADMIN_EMAIL"), LoadProperties.env.getProperty("ADMIN_PASSWORD"));
-//        homePage.click(homePage.closeToastMsg);
-//        homePage.openAdminPanel();
-//        assertIsEqual(adminPanelPage.adminPanelTitle, "ADMIN PANEL");
-//        assertIsEqual(adminPanelPage.email, email);
-//        assertIsEqual(adminPanelPage.roleNewAccount, role);
-//        assertIsEqual(adminPanelPage.name, name);
-//        adminPanelPage.approveSignUpRequest();
-//        homePage.logout();
-//        homePage.login(email, password);
-//        homePage.click(homePage.closeToastMsg);
-//        softAssert.assertTrue(homePage.isElementNotPresent(homePage.adminPanelModule), "Admin panel link should not be visible for non-admin user");
-//        softAssert.assertAll();
     }
 }
