@@ -34,8 +34,11 @@ public class HomePage extends PageBase {
     By loginPasswordField = By.xpath("/html/body/app-root/app-layout/app-header/div[2]/div/app-login-page/div/div[2]/form/div[2]/input");
     By homePageToastMsg = By.cssSelector(".p-toast-detail");
     By profileBtn = By.cssSelector(".mt-2.mt-lg-0.ng-star-inserted.profile-ul  a#dropdownId");
-    By logoutBtn = By.cssSelector(".mt-2.mt-lg-0.ng-star-inserted.profile-ul  div > a:nth-of-type(2)");
+    public By logoutBtn = By.cssSelector(".mt-2.mt-lg-0.ng-star-inserted.profile-ul  div > a:nth-of-type(2)");
+    By myProfileBtn = By.cssSelector(".mt-2.mt-lg-0.ng-star-inserted.profile-ul  div > a:nth-of-type(1)");
     public By closeLoginModal = By.cssSelector(".show .btn-close");
+    public By resourcesTab = By.cssSelector(".f-b.nav-link.ng-star-inserted");
+    public By fileParagraphLocator = By.cssSelector("p.f-name.h-3");
 
     //Method to sign up a user with the provided information.
     public void signUp(String name , String email, String password, String confPassword, String role) {
@@ -47,7 +50,6 @@ public class HomePage extends PageBase {
     select(roleField,role);
     click(signUpSubmitBtn);
     }
-
 
     //Method to log in a user with the provided information.
     public void login(String email, String password){
@@ -61,6 +63,13 @@ public class HomePage extends PageBase {
         click(profileBtn);
         click(logoutBtn);
     }
+
+    public void navigateProfile(){
+        click(profileBtn);
+        click(myProfileBtn);
+    }
+
+    public void openResourcesTab() { click(resourcesTab); }
 
     public void openAdminPanel(){
         click(adminPanelModule);
@@ -84,15 +93,11 @@ public class HomePage extends PageBase {
         }
     }
 
-    public boolean isElementNotVisible(By locator) {
+    public boolean isElementPresent(By locatorKey) {
         try {
-            // This waits until the element is either not present in the DOM,
-            // or is present but not visible. Returns true if the condition is met.
-            return wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
-        } catch (org.openqa.selenium.TimeoutException e) {
-            // If TimeoutException occurs, it means the element remained visible/present
-            // after the wait duration, so we return false.
-            System.out.println("Element " + locator.toString() + " was still visible after timeout.");
+            webDriver.findElement(locatorKey);
+            return true;
+        } catch (org.openqa.selenium.NoSuchElementException e) {
             return false;
         }
     }

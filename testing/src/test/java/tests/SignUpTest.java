@@ -22,7 +22,7 @@ public class SignUpTest extends TestBase {
         homePage.signUp(name, email, password, password, role);
         assertIsEqual(homePage.toastMsg, "Registerd successfully, please wait for admin approval to login!"); // assertion command about the showing success message of sign up
         softAssert.assertAll();
-        homePage.click(homePage.closeToastMsg);
+        homePage.closeToastMsg();
     }
 
     @Test(priority = 1)
@@ -30,7 +30,7 @@ public class SignUpTest extends TestBase {
         homePage = new HomePage(webDriver);
         adminPanelPage = new AdminPanelPage(webDriver);
         homePage.login(LoadProperties.env.getProperty("ADMIN_EMAIL"), LoadProperties.env.getProperty("ADMIN_PASSWORD"));
-        homePage.click(homePage.closeToastMsg);
+        homePage.closeToastMsg();
         homePage.openAdminPanel();
         assertIsEqual(adminPanelPage.adminPanelTitle, "ADMIN PANEL");
         assertIsEqual(adminPanelPage.email, email);
