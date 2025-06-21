@@ -118,6 +118,13 @@ export class EncryptionComponent {
     })
   }
 
+  copyKey(){
+    let keyValue = this.form.get('encryptionKey')?.value;
+    navigator.clipboard.writeText(keyValue)
+    .then(() => console.log('Text copied!'))
+    .catch(err => console.error('Failed to copy text:', err));
+  }
+
   saveKey(isFile?:boolean){
     if(isFile){
       if( this.fileForm.get('encryptionKey')?.invalid || this.fileForm.get('encryptionTechnique')?.invalid){
