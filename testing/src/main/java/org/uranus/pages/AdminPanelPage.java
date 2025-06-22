@@ -43,7 +43,37 @@ public class AdminPanelPage extends PageBase {
     By confirmRejectAlternative = By.cssSelector("p-confirmdialog .p-confirm-dialog-reject");
 
     public void approveSignUpRequest() {
+        int lastRow;
+        try {
+            By tableRows = By.cssSelector("app-accounts .active .p-datatable-wrapper tbody tr");
+            lastRow = webDriver.findElements(tableRows).size();
+        } catch (Exception e) {
+            lastRow = 0;
+        }
+        By approve = By.cssSelector(String.format("app-accounts .active .p-datatable-wrapper tbody tr:nth-child(%d) td:nth-child(6) .approve", lastRow));
         click(approve);
+    }
+
+    public By latestEmail() {
+        int lastRow;
+        try {
+            By tableRows = By.cssSelector("app-accounts .active .p-datatable-wrapper tbody tr");
+            lastRow = webDriver.findElements(tableRows).size();
+        } catch (Exception e) {
+            lastRow = 0;
+        }
+        return By.cssSelector(String.format("app-accounts .active .p-datatable-wrapper tbody tr:nth-child(%d) td:nth-child(2) span", lastRow));
+    }
+
+    public By latestName() {
+        int lastRow;
+        try {
+            By tableRows = By.cssSelector("app-accounts .active .p-datatable-wrapper tbody tr");
+            lastRow = webDriver.findElements(tableRows).size();
+        } catch (Exception e) {
+            lastRow = 0;
+        }
+        return By.cssSelector(String.format("app-accounts .active .p-datatable-wrapper tbody tr:nth-child(%d) td:nth-child(3) span", lastRow));
     }
 
     public void clickChooseFileButton() { click(chooseFileBtn); }
@@ -115,10 +145,6 @@ public class AdminPanelPage extends PageBase {
                 return false;
             }
         }
-    }
-
-    public String getFirstRowEmail() {
-        return getByGetText(email);
     }
 
     public String getFirstRowName() {

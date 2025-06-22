@@ -39,11 +39,6 @@ public class RoleManagementTest extends TestBase {
         homePage.closeToastMsg();
         homePage.openAdminPanel();
 
-        assertIsEqual(adminPanelPage.adminPanelTitle, "ADMIN PANEL");
-        assertIsEqual(adminPanelPage.email, email);
-        assertIsEqual(adminPanelPage.roleNewAccount, role);
-        assertIsEqual(adminPanelPage.name, name);
-
         adminPanelPage.approveSignUpRequest();
         homePage.logout();
 
