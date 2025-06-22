@@ -24,11 +24,15 @@ jobs:
       - name: Build backend with Maven
         run: mvn -B package --file crypto-back/pom.xml -DskipTests
 
+      - name: Find JAR file name
+        id: find_jar
+        run: echo "jar_path=$(find crypto-back/target -name '*.jar')" >> $GITHUB_OUTPUT
+
       - name: Upload backend artifact
         uses: actions/upload-artifact@v4
         with:
           name: backend-jar
-          path: crypto-back/target/*.jar
+          path: ${{ steps.find_jar.outputs.jar_path }}
 
   # Job 2: Build the Angular frontend and upload the 'dist' folder as an artifact
   build-frontend:
@@ -58,12 +62,14 @@ jobs:
   # Job 3: Run the automated Selenium tests using the built artifacts
   run-automated-tests:
     runs-on: ubuntu-latest
+    # This job runs only after the backend and frontend builds are successful
     needs: [build-backend, build-frontend]
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      # Download the artifacts that were uploaded by the build jobs
       - name: Download backend artifact
         uses: actions/download-artifact@v4
         with:
@@ -83,6 +89,7 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
+      # Now that artifacts are in place, build and start the Docker containers
       - name: Start services with Docker Compose
         run: docker-compose -f crypto-back/docker-compose-ci.yml up --build -d
 
@@ -95,6 +102,7 @@ jobs:
       - name: Run Selenium tests
         run: mvn -B test -f testing/pom.xml
 
+      # This step will run even if the tests fail, ensuring you always get a report
       - name: Publish Test Report
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
