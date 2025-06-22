@@ -19,9 +19,9 @@ public class AdminPanelPage extends PageBase {
     By approve = By.cssSelector("app-accounts .active .p-datatable-wrapper tbody tr:nth-child(1) td:nth-child(6) .approve");
     By reject = By.cssSelector("app-accounts .active .p-datatable-wrapper tbody tr:nth-child(1) td:nth-child(6) .reject");
     By staffAccountsTab = By.cssSelector("app-accounts ul #staff-tab");
-    By btnEditRoleStaff = By.cssSelector("#staff tbody tr:nth-child(1) td:nth-child(6) button");
+    By btnEditRoleStaff = By.cssSelector("tr:nth-of-type(1) > td:nth-of-type(7) > .align-items-center.d-flex.justify-content-center > .action.edit.ng-star-inserted.p-button.p-component.p-element");
     By listStafRolesField = By.cssSelector("app-accounts .active .p-datatable-wrapper tbody tr:nth-child(1) td:nth-child(4) p-celleditor select");
-    By saveEditIcon = By.cssSelector("app-accounts .active .p-datatable-wrapper tbody tr:nth-child(1) td:nth-child(6) button:nth-child(1)");
+    By saveEditIcon = By.cssSelector(".p-button-icon.pi.pi-check");
     By resourcesTab = By.cssSelector("button#resources-tab");
     By chooseFileBtn = By.cssSelector(".p-button.p-component.p-element.p-fileupload-choose.p-ripple > .p-button-icon.p-button-icon-left.pi.pi-plus");
     By roleButton = By.xpath("/html/body/app-root/app-layout/div/app-admin-layout/div/div/div[2]/div/div[1]/app-accounts/div/div[2]/app-staff-account/p-table/div/div/table/tbody/tr[1]/td[4]/p-celleditor/select");
