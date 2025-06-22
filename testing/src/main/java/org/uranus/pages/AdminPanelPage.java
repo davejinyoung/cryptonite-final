@@ -27,6 +27,21 @@ public class AdminPanelPage extends PageBase {
     By roleButton = By.xpath("/html/body/app-root/app-layout/div/app-admin-layout/div/div/div[2]/div/div[1]/app-accounts/div/div[2]/app-staff-account/p-table/div/div/table/tbody/tr[1]/td[4]/p-celleditor/select");
     public By uploadBtn = By.cssSelector("p-button:nth-of-type(1) > .p-button.p-component.p-element.p-ripple > .ng-star-inserted.p-button-label");
 
+    // Account deletion selectors
+    By allAccountsTab = By.cssSelector("app-accounts ul #All-tab");
+    By userAccountsTab = By.cssSelector("app-accounts ul #reg-tab");
+    By deleteButtonFirstRow = By.cssSelector("tr:nth-of-type(1) > td:nth-of-type(6) > button[title='Delete User Account']");
+    By confirmDeleteButton = By.cssSelector(".p-confirm-dialog-accept");
+    By cancelDeleteButton = By.cssSelector(".p-confirm-dialog-reject");
+    By confirmationDialog = By.cssSelector(".p-confirm-dialog");
+    By confirmationMessage = By.cssSelector(".p-confirm-dialog-message");
+    
+    // Alternative selectors for confirmation dialog
+    By confirmDialogAlternative = By.cssSelector("p-confirmdialog");
+    By confirmMessageAlternative = By.cssSelector("p-confirmdialog .p-confirm-dialog-message");
+    By confirmAcceptAlternative = By.cssSelector("p-confirmdialog .p-confirm-dialog-accept");
+    By confirmRejectAlternative = By.cssSelector("p-confirmdialog .p-confirm-dialog-reject");
+
     public void approveSignUpRequest() {
         click(approve);
     }
@@ -43,6 +58,97 @@ public class AdminPanelPage extends PageBase {
         click(roleButton);
         select(roleButton, newRole);
         click(saveEditIcon);
+    }
+
+    // Account deletion methods
+    public void navigateToAllAccountsTab() {
+        click(allAccountsTab);
+    }
+
+    public void navigateToUserAccountsTab() {
+        click(userAccountsTab);
+    }
+
+    public void navigateToStaffAccountsTab() {
+        click(staffAccountsTab);
+    }
+
+    public void clickDeleteButton() {
+        click(deleteButtonFirstRow);
+    }
+
+    public void confirmDelete() {
+        try {
+            click(confirmDeleteButton);
+        } catch (Exception e) {
+            click(confirmAcceptAlternative);
+        }
+    }
+
+    public void cancelDelete() {
+        try {
+            click(cancelDeleteButton);
+        } catch (Exception e) {
+            click(confirmRejectAlternative);
+        }
+    }
+
+    public String getConfirmationMessage() {
+        try {
+            return getByGetText(confirmationMessage);
+        } catch (Exception e) {
+            return getByGetText(confirmMessageAlternative);
+        }
+    }
+
+    public boolean isConfirmationDialogVisible() {
+        try {
+            webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(confirmationDialog));
+            return true;
+        } catch (Exception e) {
+            try {
+                webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(confirmDialogAlternative));
+                return true;
+            } catch (Exception e2) {
+                return false;
+            }
+        }
+    }
+
+    public String getFirstRowEmail() {
+        return getByGetText(email);
+    }
+
+    public String getFirstRowName() {
+        return getByGetText(name);
+    }
+
+    public boolean isDeleteButtonVisible() {
+        try {
+            webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(deleteButtonFirstRow));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean isAccountInTable(String email) {
+        try {
+            By accountRow = By.xpath("//td[contains(text(), '" + email + "')]");
+            webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(accountRow));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public int getTableRowCount() {
+        try {
+            By tableRows = By.cssSelector("app-accounts .active .p-datatable-wrapper tbody tr");
+            return webDriver.findElements(tableRows).size();
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
 }
