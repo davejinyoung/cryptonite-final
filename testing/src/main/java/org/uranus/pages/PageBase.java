@@ -28,8 +28,7 @@ public class PageBase {
     WebDriver webDriver;
 
     public PageBase(WebDriver webDriver) {
-        webDriverWait = new WebDriverWait(webDriver, Duration.ofSeconds(30));
-        webDriverWait = new WebDriverWait(webDriver, Duration.ofSeconds(30));
+        webDriverWait = new WebDriverWait(webDriver, Duration.ofSeconds(2));
         actions = new Actions(webDriver);
         js = (JavascriptExecutor) webDriver;
         this.webDriver = webDriver;

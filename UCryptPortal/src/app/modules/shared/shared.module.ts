@@ -10,10 +10,11 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { TooltipModule } from 'primeng/tooltip';
 import { HttpClientModule } from '@angular/common/http';
 import {ToastModule} from 'primeng/toast';
-import { MessageService } from 'primeng/api';
+import { MessageService, ConfirmationService } from 'primeng/api';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { DropdownModule } from 'primeng/dropdown';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { LoginPageComponent } from './components/login-page/login-page.component';
 import { SignUpPageComponent } from './components/sign-up-page/sign-up-page.component';
 
@@ -30,6 +31,7 @@ import { SignUpPageComponent } from './components/sign-up-page/sign-up-page.comp
     CommonModule,
     SharedRoutingModule,
     ToastModule,
+    ConfirmDialogModule,
     NgxSpinnerModule,
     ReactiveFormsModule
   ],
@@ -42,9 +44,10 @@ import { SignUpPageComponent } from './components/sign-up-page/sign-up-page.comp
     TableModule,
     DropdownModule,
     ToastModule,
+    ConfirmDialogModule,
     LoginPageComponent,
     SignUpPageComponent
   ],
-  providers: [MessageService]
+  providers: [MessageService, ConfirmationService]
 })
 export class SharedModule {}
