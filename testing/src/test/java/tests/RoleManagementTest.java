@@ -51,8 +51,8 @@ public class RoleManagementTest extends TestBase {
         homePage.closeToastMsg();
         homePage.openAdminPanel();
         assertIsEqual(adminPanelPage.adminPanelTitle, "ADMIN PANEL");
-        adminPanelPage.editRole("user");
-        assertIsEqual(homePage.toastMsg, "Same role");
+        adminPanelPage.editRole("USER");
+        assertIsEqual(homePage.toastMsg, "user role updated successfully!");
         softAssert.assertAll();
     }
 }

@@ -24,6 +24,7 @@ public class AdminPanelPage extends PageBase {
     By saveEditIcon = By.cssSelector("app-accounts .active .p-datatable-wrapper tbody tr:nth-child(1) td:nth-child(6) button:nth-child(1)");
     By resourcesTab = By.cssSelector("button#resources-tab");
     By chooseFileBtn = By.cssSelector(".p-button.p-component.p-element.p-fileupload-choose.p-ripple > .p-button-icon.p-button-icon-left.pi.pi-plus");
+    By roleButton = By.xpath("/html/body/app-root/app-layout/div/app-admin-layout/div/div/div[2]/div/div[1]/app-accounts/div/div[2]/app-staff-account/p-table/div/div/table/tbody/tr[1]/td[4]/p-celleditor/select");
     public By uploadBtn = By.cssSelector("p-button:nth-of-type(1) > .p-button.p-component.p-element.p-ripple > .ng-star-inserted.p-button-label");
 
     public void approveSignUpRequest() {
@@ -39,13 +40,8 @@ public class AdminPanelPage extends PageBase {
     public void editRole(String newRole) {
         click(staffAccountsTab);
         click(btnEditRoleStaff);
-        By roleDropdown = By.cssSelector("select.form-select");
-        WebElement dropdown = webDriver.findElement(roleDropdown);
-        String value = newRole.toUpperCase();
-        ((org.openqa.selenium.JavascriptExecutor) webDriver).executeScript(
-            "arguments[0].value = arguments[1]; arguments[0].dispatchEvent(new Event('change'));",
-            dropdown, value
-        );
+        click(roleButton);
+        select(roleButton, newRole);
         click(saveEditIcon);
     }
 

@@ -17,8 +17,8 @@ public class AdminPanelTest extends TestBase {
         homePage.login(LoadProperties.env.getProperty("ADMIN_EMAIL"), LoadProperties.env.getProperty("ADMIN_PASSWORD"));
         homePage.openAdminPanel();
         assertIsEqual(adminPanelPage.adminPanelTitle, "ADMIN PANEL");
-        adminPanelPage.editRole("User");
-        assertIsEqual(homePage.toastMsg, "Role is Edited Successfully");
+        adminPanelPage.editRole("USER");
+        assertIsEqual(homePage.toastMsg, "user role updated successfully!");
         softAssert.assertAll();
     }
 

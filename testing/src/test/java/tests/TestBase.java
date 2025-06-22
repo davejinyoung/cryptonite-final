@@ -41,6 +41,7 @@ public class TestBase {
     @AfterClass
     public void endDriver() {
         webDriver.close();
+        webDriver.quit();
     }
 
     public void assertIsEqual(By by, String expected) {
