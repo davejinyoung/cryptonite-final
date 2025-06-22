@@ -1,8 +1,14 @@
 package org.uranus.pages;
 
-import auideas.pages.PageBase;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.Platform;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+
+import auideas.pages.PageBase;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +23,7 @@ public class EncryptionPage extends PageBase {
     private static final Logger logger = LoggerFactory.getLogger(EncryptionPage.class);
     // all the elments in encryption page that we might need
     public By encryptionPageId = By.xpath("/html/body/app-root/app-layout/div/app-encryption/div/div/h2");
-    By textToEncrypt = By.xpath("/html/body/app-root/app-layout/div/app-encryption/div/div/div/div[2]/form/div/div[1]/textarea");
+    public static By textToEncrypt = By.xpath("/html/body/app-root/app-layout/div/app-encryption/div/div/div/div[2]/form/div/div[1]/textarea");
     By encryptionTechnique = By.xpath("/html/body/app-root/app-layout/div/app-encryption/div/div/div/div[2]/form/div/div[2]/div[1]/select");
     By autoGenKey = By.xpath("/html/body/app-root/app-layout/div/app-encryption/div/div/div/div[2]/form/div/div[2]/div[2]/label/button");
     By keyTextArea = By.xpath("/html/body/app-root/app-layout/div/app-encryption/div/div/div/div[2]/form/div/div[2]/div[2]/div/textarea");
@@ -26,19 +32,13 @@ public class EncryptionPage extends PageBase {
     By enKeySave = By.cssSelector(".p-element:nth-child(2) > svg");
     By encryptBTn = By.xpath("/html/body/app-root/app-layout/div/app-encryption/div/div/div/div[2]/form/div/div[3]/div[2]/button");
     By outputTextArea = By.xpath("/html/body/app-root/app-layout/div/app-encryption/div/div/div/div[2]/form/div/div[4]/textarea");
-    
+    By copyKeyBtn = By.xpath("//div[@class='px-3']//div[@class='enc-group']//button[1]//*[name()='svg']");
+
     List<String> outputs = new ArrayList<>();
 
-    public List<String> encryption(String plainText, String encrypType){
+    public List<String> encryption(String plainText, String encryptType){
         type(textToEncrypt, plainText);
-
-        switch (encrypType) {
-            case "aes" -> select(encryptionTechnique, "aes");
-            case "tripledes" -> select(encryptionTechnique, "triple_des");
-            default -> select(encryptionTechnique, "blowfish");
-        }
-
-        click(autoGenKey);
+        createKey(encryptType);
         click(enKeySave);
         outputs.add(getAttributeValue(keyTextArea));
         click(encryptBTn);
@@ -48,5 +48,20 @@ public class EncryptionPage extends PageBase {
         return outputs;
     }
 
+    public List<String> createAndCopyEncryptKey(String encryptType) {
+        createKey(encryptType);
+        click(copyKeyBtn);
+        outputs.add(getAttributeValue(keyTextArea));
+        return outputs;
+    }
 
+    private void createKey(String encryptType){
+        type(textToEncrypt, "");
+        switch (encryptType) {
+            case "aes" -> select(encryptionTechnique, "aes");
+            case "tripledes" -> select(encryptionTechnique, "triple_des");
+            case "blowfish" -> select(encryptionTechnique, "blowfish");
+        }
+        click(autoGenKey);
+    }
 }

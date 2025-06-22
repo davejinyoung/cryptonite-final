@@ -18,23 +18,20 @@ public class FileEncryptionDecryptionTest extends TestBase {
     public static List<String> outputs = new ArrayList<>();
 
     @Test(priority = 0)
-    public void checkThatEncryptionnWorks(){
-        //System.out.println("Plain text before encryption: "+outputText);
+    public void checkThatEncryptionWorks(){
         homePage = new HomePage(webDriver);
         encryptionPage = new EncryptionPage(webDriver);
         homePage.login(LoadProperties.env.getProperty("ADMIN_EMAIL"), LoadProperties.env.getProperty("ADMIN_PASSWORD"));
         homePage.openService("encryption");
         assertIsEqual(encryptionPage.encryptionPageId, "File & Text Encryption");
         outputs = encryptionPage.encryption(LoadProperties.env.getProperty("plainText"), LoadProperties.env.getProperty("encryptType"));
-        // outputText = encryptionPage.getOuputText();
-        //System.out.println("Key: "+outputs.get(0)+"\n Key Save Toast MSG: "+outputs.get(1)+"\n Encryption Toast MSG: "+outputs.get(2)+"\n Output Text: "+outputs.get(3));
         assertIsEqualByStringOnly(outputs.get(1), "Key is Saved Successfully");
         assertIsEqualByStringOnly(outputs.get(2), "data encrypted successfully");
         softAssert.assertAll();
     }
 
     @Test(priority = 1)
-    public void checkThatDecryptionnWorks(){
+    public void checkThatDecryptionWorks(){
         homePage = new HomePage(webDriver);
         decryptionPage = new DecryptionPage(webDriver);
         homePage.openService("decryption");
