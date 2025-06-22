@@ -67,7 +67,6 @@ public class PageBase {
         webDriverWait.until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOfElementLocated(by)));
         webElement =webDriver.findElement(by);
         webDriverWait.until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOf(webElement)));
-        //logger.info("Helllllllllllllllllllllllllllllllllllllllllll output at Encryption: {}", webElement.getAttribute("value"));
         return webElement.getAttribute("value");
 }
     public String getByGetText(By by){
@@ -75,7 +74,6 @@ public class PageBase {
         webDriverWait.until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOfElementLocated(by)));
         webElement =webDriver.findElement(by);
         webDriverWait.until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOf(webElement)));
-        //logger.info("Helllllllllllllllllllllllllllllllllllllllllll output at Encryption: {}", webElement.getAttribute("value"));
         return webElement.getText();
     }
 }

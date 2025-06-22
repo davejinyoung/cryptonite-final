@@ -5,7 +5,6 @@ import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ import org.uranus.pages.DecryptionPage;
 import org.uranus.pages.EncryptionPage;
 import org.uranus.pages.HomePage;
 
-public class EncryptionKeyCopyTest extends TestBase {
+public class BugFixEncryptionKeyCopyTest extends TestBase {
 
     HomePage homePage;
     EncryptionPage encryptionPage;

@@ -1,14 +1,8 @@
 package org.uranus.pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.Platform;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-
 import auideas.pages.PageBase;
 import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +15,6 @@ public class EncryptionPage extends PageBase {
     }
 
     private static final Logger logger = LoggerFactory.getLogger(EncryptionPage.class);
-    // all the elments in encryption page that we might need
     public By encryptionPageId = By.xpath("/html/body/app-root/app-layout/div/app-encryption/div/div/h2");
     public static By textToEncrypt = By.xpath("/html/body/app-root/app-layout/div/app-encryption/div/div/div/div[2]/form/div/div[1]/textarea");
     By encryptionTechnique = By.xpath("/html/body/app-root/app-layout/div/app-encryption/div/div/div/div[2]/form/div/div[2]/div[1]/select");

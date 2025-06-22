@@ -4,7 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 import org.uranus.configuration.LoadProperties;
 import org.uranus.pages.AdminPanelPage;
@@ -17,12 +16,8 @@ public class FileVisibilityTest extends TestBase {
     AdminPanelPage adminPanelPage;
 
     String name = faker.name().fullName();
-    String email = faker.internet().emailAddress();
-    String password = faker.number().digits(6);
     String role = "USER";
 
-    // This test currently fails due to an existing bug in the source code. The functional steps of the test is
-    // logically correct
     @Test(priority = 0, description = "File uploaded by an admin is visible to admins and employees")
     public void testAdminFileVisibleToAdminAndEmployee() {
         homePage = new HomePage(webDriver);
