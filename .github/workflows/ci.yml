@@ -1,0 +1,79 @@
+name: CI Pipeline
+
+# This workflow triggers on pushes and pull requests to the main branch
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  # Job to build the Java backend
+  build-backend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build with Maven
+        run: mvn -B package --file crypto-back/pom.xml -DskipTests
+
+  # Job to build the Angular frontend
+  build-frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install Frontend Dependencies and Build
+        run: |
+          cd UCryptPortal
+          npm install
+          npm install -g @angular/cli@15.0.1
+          ng build --configuration=docker
+
+  # Job to build and push Docker images
+  # This job depends on the backend and frontend builds completing successfully
+  build-and-push-docker-images:
+    runs-on: ubuntu-latest
+    needs: [build-backend, build-frontend] # This ensures this job runs only after the others succeed
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push backend Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./crypto-back
+          file: ./crypto-back/Dockerfile
+          push: true
+          tags: davejinyoung/ucrypt_back:latest
+
+      - name: Build and push frontend Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./UCryptPortal
+          file: ./UCryptPortal/Dockerfile
+          push: true
+          tags: davejinyoung/ucrypt_front:latest
