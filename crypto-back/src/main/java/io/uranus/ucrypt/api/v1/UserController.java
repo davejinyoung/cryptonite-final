@@ -88,4 +88,11 @@ public class UserController extends AbstractController implements UsersApi {
         return ResponseEntity.ok()
                 .build();
     }
+
+    @Override
+    public ResponseEntity<Void> deleteUser(final Long id) {
+        this.userService.deleteUser(id);
+        return ResponseEntity.noContent()
+                .build();
+    }
 }

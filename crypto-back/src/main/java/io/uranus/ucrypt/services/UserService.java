@@ -188,4 +188,18 @@ public class UserService {
         user.setRole(role);
         this.userRepository.save(user);
     }
+
+    /**
+     * Permanently deletes a user from the system using the user id which is passed as a parameter.
+     *
+     * @param userId -> user id.
+     * @throws BusinessException 404 if user can't be found.
+     */
+    @PreAuthorize("hasRole('ADMIN')")
+    @Transactional
+    public void deleteUser(final Long userId) {
+        final var user = this.userRepository.findById(userId)
+                .orElseThrow(() -> new BusinessException(HttpStatus.NOT_FOUND, String.format("There's no user with id %s", userId)));
+        this.userRepository.delete(user);
+    }
 }

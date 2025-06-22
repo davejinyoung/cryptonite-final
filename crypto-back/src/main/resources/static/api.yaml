@@ -513,6 +513,25 @@ paths:
         default:
           $ref: '#/components/responses/Error'
 
+  /users/{id}:
+    delete:
+      tags:
+        - Users
+      summary: Delete User
+      parameters:
+        - name: id
+          description: User Id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      operationId: deleteUser
+      responses:
+        204:
+          description: No Content
+        default:
+          $ref: '#/components/responses/Error'
 
   /encryption-keys/generate:
     put:

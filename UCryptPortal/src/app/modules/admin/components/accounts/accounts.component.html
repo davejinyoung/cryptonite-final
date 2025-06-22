@@ -38,15 +38,15 @@
   </div>
   <!-- staff Tab -->
   <div class="tab-pane" id="staff" role="tabpanel" aria-labelledby="staff-tab">
-    <app-staff-account [data]="staff" [cols]="Cols"></app-staff-account>
+    <app-staff-account [data]="staff" [cols]="Cols" (accountDeleted)="accountDeleted($event)"></app-staff-account>
   </div>
   <!-- reg Tab -->
   <div class="tab-pane" id="reg" role="tabpanel" aria-labelledby="reg-tab">
-    <app-user-account [data]="userAccount" [cols]="Cols" ></app-user-account>
+    <app-user-account [data]="userAccount" [cols]="Cols" (accountDeleted)="accountDeleted($event)"></app-user-account>
   </div>
   <!-- all Tab -->
   <div class="tab-pane" id="All" role="tabpanel" aria-labelledby="All-tab">
-    <app-all-account [data]="allUsers" [cols]="Cols"></app-all-account>
+    <app-all-account [data]="allUsers" [cols]="Cols" (accountDeleted)="accountDeleted($event)"></app-all-account>
   </div>
 
 </div>

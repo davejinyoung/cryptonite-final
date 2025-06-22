@@ -111,6 +111,10 @@ export class AccountService {
     return this.http.put<any>(this.baseUrl + `/${id}/role`,obj);
   }
 
+  deleteUser(id: any) {
+    return this.http.delete<any>(this.baseUrl + `/${id}`);
+  }
+
   getEmployees() {
     return this.http.get<any[]>(this.baseEmployeeUrl);
 

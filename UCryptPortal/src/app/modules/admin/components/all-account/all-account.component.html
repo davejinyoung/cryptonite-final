@@ -4,16 +4,27 @@
       <th *ngFor="let col of cols" [hidden]="col.hidden" [pSortableColumn]="col.field" style="padding: 0.58em 0.857em">
         {{ col.header }}
       </th>
+      <th style="width: 100px; text-align: center">Actions</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-account>
     <tr>
       <td *ngFor="let col of cols" [hidden]="col.hidden">{{ account[col.field] }}</td>
+      <td style="text-align: center">
+        <button type="button" 
+                pButton 
+                pRipple 
+                icon="pi pi-trash" 
+                class="p-button-danger p-button-sm" 
+                (click)="deleteUser(account)"
+                title="Delete Account">
+        </button>
+      </td>
     </tr>
   </ng-template>
   <ng-template pTemplate="emptymessage" let-columns>
     <tr *ngIf="data.length === 0">
-      <td [attr.colspan]="columns?.length" class="empty-grid-table">
+      <td [attr.colspan]="columns?.length + 1" class="empty-grid-table">
         <span class="emp-msg">
           There is no data yet
         </span>

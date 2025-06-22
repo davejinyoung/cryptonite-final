@@ -128,5 +128,15 @@ export class AccountsComponent {
       this.getAllUsers();
     }
   }
+
+  accountDeleted(event: boolean){
+    if(event){
+      this.allUsers = [];
+      this.staff = [];
+      this.newAccount = [];
+      this.userAccount = [];
+      this.getAllUsers();
+    }
+  }
 }
 
