@@ -26,7 +26,7 @@ jobs:
 
       - name: Find JAR file name
         id: find_jar
-        run: echo "jar_path=$(find crypto-back/target -name '*.jar')" >> $GITHUB_OUTPUT
+        run: echo "jar_path=$(find crypto-back/target -maxdepth 1 -name '*.jar')" >> $GITHUB_OUTPUT
 
       - name: Upload backend artifact
         uses: actions/upload-artifact@v4
