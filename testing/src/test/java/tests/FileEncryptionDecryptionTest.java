@@ -9,14 +9,25 @@ import org.uranus.pages.DecryptionPage;
 import org.uranus.pages.EncryptionPage;
 import org.uranus.pages.HomePage;
 
+/**
+ * Tests file encryption and decryption functionality.
+ * 
+ * Verifies end-to-end encryption/decryption workflow.
+ */
 public class FileEncryptionDecryptionTest extends TestBase {
 
+    // Page objects
     HomePage homePage;
     EncryptionPage encryptionPage;
     DecryptionPage decryptionPage;
+    
+    // Test output storage
     public static String outputText;
     public static List<String> outputs = new ArrayList<>();
 
+    /**
+     * Tests file encryption process.
+     */
     @Test(priority = 0)
     public void checkThatEncryptionWorks(){
         homePage = new HomePage(webDriver);
@@ -30,6 +41,9 @@ public class FileEncryptionDecryptionTest extends TestBase {
         softAssert.assertAll();
     }
 
+    /**
+     * Tests file decryption process.
+     */
     @Test(priority = 1)
     public void checkThatDecryptionWorks(){
         homePage = new HomePage(webDriver);

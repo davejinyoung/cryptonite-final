@@ -14,13 +14,15 @@ import org.uranus.configuration.LoadProperties;
 
 import java.time.Duration;
 
-
-/// The TestBase class serves as the base class for all test classes in the application.
-/// It contains common setup and teardown logic that is shared across multiple test classes.
-/// Developers can inherit from this class to ensure consistent test execution.
-
+/**
+ * Base class for all test classes.
+ * 
+ * Provides common setup, teardown, and assertion methods
+ * for consistent test execution across the application.
+ */
 public class TestBase {
 
+    // Shared test resources
     public static String token;
     SoftAssert softAssert = new SoftAssert();
     public static WebDriver webDriver;
@@ -28,7 +30,9 @@ public class TestBase {
     WebElement webElement;
     Faker faker = new Faker();
 
-    // Sets up the necessary web driver and url product under test for the test to run.
+    /**
+     * Initializes Chrome WebDriver and navigates to test URL.
+     */
     @BeforeClass
     public void startDriver() {
         WebDriverManager.chromedriver().setup();
@@ -37,13 +41,18 @@ public class TestBase {
         webDriver.manage().window().maximize();
     }
 
-
+    /**
+     * Cleans up WebDriver resources after test execution.
+     */
     @AfterClass
     public void endDriver() {
         webDriver.close();
         webDriver.quit();
     }
 
+    /**
+     * Asserts element text matches expected value with wait conditions.
+     */
     public void assertIsEqual(By by, String expected) {
         if (expected != null) {
             webDriverWait = new WebDriverWait(webDriver, Duration.ofSeconds(30));
@@ -55,6 +64,10 @@ public class TestBase {
             return;
         }
     }
+
+    /**
+     * Asserts string values match without element location.
+     */
     public void assertIsEqualByStringOnly(String actual, String expected) {
         if (expected != null) {
             softAssert.assertEquals(actual, expected);
