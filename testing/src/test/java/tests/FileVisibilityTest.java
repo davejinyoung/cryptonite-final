@@ -11,18 +11,29 @@ import org.uranus.pages.HomePage;
 
 import java.time.Duration;
 
+/**
+ * Tests file visibility and access control.
+ * 
+ * Verifies file upload permissions and visibility across user roles.
+ */
 public class FileVisibilityTest extends TestBase {
+    // Page objects
     HomePage homePage;
     AdminPanelPage adminPanelPage;
 
+    // Test data
     String name = faker.name().fullName();
     String role = "USER";
 
+    /**
+     * Tests admin file visibility to admin and employee users.
+     */
     @Test(priority = 0, description = "File uploaded by an admin is visible to admins and employees")
     public void testAdminFileVisibleToAdminAndEmployee() {
         homePage = new HomePage(webDriver);
         adminPanelPage = new AdminPanelPage(webDriver);
 
+        // Admin uploads file
         homePage.login(LoadProperties.env.getProperty("ADMIN_EMAIL"), LoadProperties.env.getProperty("ADMIN_PASSWORD"));
         homePage.openAdminPanel();
         adminPanelPage.navigateResourceTab();
@@ -39,6 +50,7 @@ public class FileVisibilityTest extends TestBase {
         homePage.closeToastMsg();
         homePage.logout();
 
+        // Employee verifies file visibility
         homePage.login(LoadProperties.env.getProperty("employee_email"), LoadProperties.env.getProperty("employee_password"));
         homePage.closeToastMsg();
         homePage.openResourcesTab();
@@ -57,19 +69,23 @@ public class FileVisibilityTest extends TestBase {
         softAssert.assertAll();
     }
 
-    // This test currently fails due to an existing bug in the source code. The functional steps of the test is
-    // logically correct
+    /**
+     * Tests that admin files are not visible to regular users.
+     * Note: This test currently fails due to an existing bug in the source code.
+     */
     @Test(priority = 1, description = "File uploaded by an admin is not visible to regular users")
     public void testAdminFileNotVisibleToRegularUser() {
         homePage = new HomePage(webDriver);
         adminPanelPage = new AdminPanelPage(webDriver);
 
+        // Create regular user account
         String email = faker.internet().emailAddress();
         String password = faker.number().digits(6);
 
         homePage.signUp(name, email, password, password, role);
         homePage.closeToastMsg();
 
+        // Admin approves user account
         homePage.login(LoadProperties.env.getProperty("ADMIN_EMAIL"), LoadProperties.env.getProperty("ADMIN_PASSWORD"));
         homePage.closeToastMsg();
         homePage.openAdminPanel();
@@ -77,6 +93,7 @@ public class FileVisibilityTest extends TestBase {
         adminPanelPage.approveSignUpRequest();
         homePage.logout();
 
+        // Verify regular user cannot access resources
         homePage.login(email, password);
         homePage.closeToastMsg();
         softAssert.assertFalse(homePage.isElementPresent(homePage.resourcesTab));

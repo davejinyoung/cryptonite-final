@@ -5,15 +5,25 @@ import org.uranus.configuration.LoadProperties;
 import org.uranus.pages.AdminPanelPage;
 import org.uranus.pages.HomePage;
 
+/**
+ * Tests account creation and activation workflow.
+ * 
+ * Verifies user registration, admin approval, and access control.
+ */
 public class AccountCreationActivationTest extends TestBase {
+    // Page objects
     HomePage homePage;
     AdminPanelPage adminPanelPage;
 
+    // Test data
     String name = faker.name().fullName();
     String email = faker.internet().emailAddress();
     String password = faker.number().digits(6);
     String role = "EMPLOYEE";
 
+    /**
+     * Tests that non-activated users cannot login.
+     */
     @Test(priority = 0, description = "Non-activated user cannot log in")
     public void testNonActivatedUserCannotLogin() {
         homePage = new HomePage(webDriver);
@@ -28,6 +38,9 @@ public class AccountCreationActivationTest extends TestBase {
         homePage.closeToastMsg();
     }
 
+    /**
+     * Tests account creation with pending activation status.
+     */
     @Test(priority = 1, description = "User can create an account and the account is pending activation")
     public void testUserCanCreateAccountPendingActivation() {
         String name = faker.name().fullName();
@@ -41,6 +54,9 @@ public class AccountCreationActivationTest extends TestBase {
         homePage.closeToastMsg();
     }
 
+    /**
+     * Tests that unactivated users cannot access features.
+     */
     @Test(priority = 2, description = "User cannot access features without admin activation")
     public void testUserCannotAccessFeaturesWithoutActivation() {
         homePage = new HomePage(webDriver);
@@ -51,6 +67,9 @@ public class AccountCreationActivationTest extends TestBase {
         homePage.closeLoginModal();
     }
 
+    /**
+     * Tests admin activation of pending user accounts.
+     */
     @Test(priority = 3, description = "Admin can activate a pending user account")
     public void testAdminCanActivatePendingUser() {
         homePage = new HomePage(webDriver);

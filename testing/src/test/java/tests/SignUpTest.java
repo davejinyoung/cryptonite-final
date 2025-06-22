@@ -5,17 +5,26 @@ import org.uranus.configuration.LoadProperties;
 import org.uranus.pages.AdminPanelPage;
 import org.uranus.pages.HomePage;
 
+/**
+ * Tests user registration and approval workflow.
+ * 
+ * Verifies signup process and admin approval functionality.
+ */
 public class SignUpTest extends TestBase {
 
+    // Page objects
     HomePage homePage;
     AdminPanelPage adminPanelPage;
 
+    // Test data using faker
     String name = faker.name().fullName();
     String email = faker.internet().emailAddress();
     String password = faker.number().digits(6);
     String role = "EMPLOYEE";
 
-
+    /**
+     * Tests successful user registration process.
+     */
     @Test(priority = 0)
     public void checkThatSignUpScenarioWorkingSuccessfully()  {
         homePage = new HomePage(webDriver);
@@ -25,6 +34,9 @@ public class SignUpTest extends TestBase {
         homePage.closeToastMsg();
     }
 
+    /**
+     * Tests admin approval of registration request.
+     */
     @Test(priority = 1)
     public void approveRegistrationRequest() {
         homePage = new HomePage(webDriver);
