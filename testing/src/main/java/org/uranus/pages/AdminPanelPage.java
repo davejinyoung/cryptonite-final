@@ -30,7 +30,7 @@ public class AdminPanelPage extends PageBase {
     // Account deletion selectors
     By allAccountsTab = By.cssSelector("app-accounts ul #All-tab");
     By userAccountsTab = By.cssSelector("app-accounts ul #reg-tab");
-    By deleteButtonFirstRow = By.cssSelector("tr:nth-of-type(1) > td:nth-of-type(6) > button[title='Delete User Account']");
+    By deleteButtonFirstRow = By.cssSelector("tr:nth-of-type(1) > td:nth-of-type(6) > button[title='Delete User Account'] > .p-button-icon.pi.pi-trash");
     By confirmDeleteButton = By.cssSelector(".p-confirm-dialog-accept");
     By cancelDeleteButton = By.cssSelector(".p-confirm-dialog-reject");
     By confirmationDialog = By.cssSelector(".p-confirm-dialog");
@@ -73,8 +73,10 @@ public class AdminPanelPage extends PageBase {
         click(staffAccountsTab);
     }
 
-    public void clickDeleteButton() {
-        click(deleteButtonFirstRow);
+    public void clickDeleteButton(int row) {
+        String selector = String.format("tr:nth-of-type(%d) > td:nth-of-type(6) > button[title='Delete User Account'] > .p-button-icon.pi.pi-trash", row);
+        By deleteButtonLastRow = By.cssSelector(selector);
+        click(deleteButtonLastRow);
     }
 
     public void confirmDelete() {

@@ -77,7 +77,12 @@ public class AccountDeletionTest extends TestBase {
         adminPanelPage = new AdminPanelPage(webDriver);
         
         webDriver.navigate().to(LoadProperties.env.getProperty("URL"));
-        
+
+        if (!homePage.isLoginButtonVisible()) {
+            homePage.logout();
+            homePage.closeToastMsg();
+        }
+
         // Create and activate user account
         homePage.signUp(testUserName, testUserEmail, testUserPassword, testUserPassword, testUserRole);
         assertIsEqual(homePage.toastMsg, "Registerd successfully, please wait for admin approval to login!");
@@ -102,7 +107,7 @@ public class AccountDeletionTest extends TestBase {
         softAssert.assertTrue(adminPanelPage.isDeleteButtonVisible(), "Delete button should be visible");
         
         int rowCountBefore = adminPanelPage.getTableRowCount();
-        adminPanelPage.clickDeleteButton();
+        adminPanelPage.clickDeleteButton(rowCountBefore);
         
         try {
             Thread.sleep(1000);
@@ -151,6 +156,11 @@ public class AccountDeletionTest extends TestBase {
         adminPanelPage = new AdminPanelPage(webDriver);
         
         webDriver.navigate().to(LoadProperties.env.getProperty("URL"));
+
+        if (!homePage.isLoginButtonVisible()) {
+            homePage.logout();
+            homePage.closeToastMsg();
+        }
         
         // Create and activate user account
         homePage.signUp(cancelTestUserName, cancelTestUserEmail, cancelTestUserPassword, cancelTestUserPassword, testUserRole);
@@ -174,7 +184,7 @@ public class AccountDeletionTest extends TestBase {
         
         // Test cancellation
         int rowCountBefore = adminPanelPage.getTableRowCount();
-        adminPanelPage.clickDeleteButton();
+        adminPanelPage.clickDeleteButton(rowCountBefore);
         
         try {
             Thread.sleep(1000);
