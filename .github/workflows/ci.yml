@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  # Job 1: Build the Java backend and upload the JAR file as an artifact
+  # Job 1: Build the Java backend and upload the WAR file as an artifact
   build-backend:
     runs-on: ubuntu-latest
     steps:
@@ -24,11 +24,12 @@ jobs:
       - name: Build backend with Maven
         run: mvn -B package --file crypto-back/pom.xml -DskipTests
 
+      # This step now correctly looks for and uploads the .war file
       - name: Upload backend artifact
         uses: actions/upload-artifact@v4
         with:
-          name: backend-jar
-          path: crypto-back/target/*.jar
+          name: backend-war
+          path: crypto-back/target/*.war
 
   # Job 2: Build the Angular frontend and upload the 'dist' folder as an artifact
   build-frontend:
@@ -69,7 +70,7 @@ jobs:
       - name: Download backend artifact
         uses: actions/download-artifact@v4
         with:
-          name: backend-jar
+          name: backend-war
           path: crypto-back/target/
 
       - name: Download frontend artifact
