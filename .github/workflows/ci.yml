@@ -24,15 +24,11 @@ jobs:
       - name: Build backend with Maven
         run: mvn -B package --file crypto-back/pom.xml -DskipTests
 
-      - name: Find JAR file name
-        id: find_jar
-        run: echo "jar_path=$(find crypto-back/target -maxdepth 1 -name '*.jar')" >> $GITHUB_OUTPUT
-
       - name: Upload backend artifact
         uses: actions/upload-artifact@v4
         with:
           name: backend-jar
-          path: ${{ steps.find_jar.outputs.jar_path }}
+          path: crypto-back/target/*.jar
 
   # Job 2: Build the Angular frontend and upload the 'dist' folder as an artifact
   build-frontend:
