@@ -22,30 +22,10 @@ public class AccountCreationActivationTest extends TestBase {
     String role = "EMPLOYEE";
 
     /**
-     * Tests that non-activated users cannot login.
-     */
-    @Test(priority = 0, description = "Non-activated user cannot log in")
-    public void testNonActivatedUserCannotLogin() {
-        homePage = new HomePage(webDriver);
-        homePage.signUp(name, email, password, password, role);
-        assertIsEqual(homePage.toastMsg, "Registerd successfully, please wait for admin approval to login!");
-        softAssert.assertAll();
-        homePage.closeToastMsg();
-        homePage.login(email, password);
-        assertIsEqual(homePage.toastMsg, "Invalid credentials!");
-        softAssert.assertAll();
-        homePage.closeLoginModal();
-        homePage.closeToastMsg();
-    }
-
-    /**
      * Tests account creation with pending activation status.
      */
-    @Test(priority = 1, description = "User can create an account and the account is pending activation")
+    @Test(priority = 0, description = "User can create an account and the account is pending activation")
     public void testUserCanCreateAccountPendingActivation() {
-        String name = faker.name().fullName();
-        String email = faker.internet().emailAddress();
-        String password = faker.number().digits(6);
         homePage = new HomePage(webDriver);
         adminPanelPage = new AdminPanelPage(webDriver);
         homePage.signUp(name, email, password, password, role);
@@ -53,6 +33,20 @@ public class AccountCreationActivationTest extends TestBase {
         softAssert.assertAll();
         homePage.closeToastMsg();
     }
+
+    /**
+     * Tests that non-activated users cannot login.
+     */
+    @Test(priority = 1, description = "Non-activated user cannot log in")
+    public void testNonActivatedUserCannotLogin() {
+        homePage = new HomePage(webDriver);
+        homePage.login(email, password);
+        assertIsEqual(homePage.toastMsg, "Invalid credentials!");
+        softAssert.assertAll();
+        homePage.closeLoginModal();
+        homePage.closeToastMsg();
+    }
+
 
     /**
      * Tests that unactivated users cannot access features.
@@ -63,7 +57,6 @@ public class AccountCreationActivationTest extends TestBase {
         homePage.click(homePage.tryEncryptionBtn);
         softAssert.assertNotNull(homePage.emailLoginField);
         softAssert.assertAll();
-        homePage.closeToastMsg();
         homePage.closeLoginModal();
     }
 
@@ -78,12 +71,12 @@ public class AccountCreationActivationTest extends TestBase {
         homePage.closeToastMsg();
         homePage.openAdminPanel();
         assertIsEqual(adminPanelPage.adminPanelTitle, "ADMIN PANEL");
-        assertIsEqual(adminPanelPage.email, email);
+        assertIsEqual(adminPanelPage.latestEmail(), email);
         assertIsEqual(adminPanelPage.roleNewAccount, role);
-        assertIsEqual(adminPanelPage.name, name);
+        assertIsEqual(adminPanelPage.latestName(), name);
         adminPanelPage.approveSignUpRequest();
-        softAssert.assertNotEquals(adminPanelPage.email, email);
-        softAssert.assertNotEquals(adminPanelPage.name, name);
+        softAssert.assertNotEquals(adminPanelPage.latestEmail(), email);
+        softAssert.assertNotEquals(adminPanelPage.latestName(), name);
         softAssert.assertAll();
     }
 }

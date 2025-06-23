@@ -19,9 +19,9 @@ public class AdminPanelPage extends PageBase {
     By approve = By.cssSelector("app-accounts .active .p-datatable-wrapper tbody tr:nth-child(1) td:nth-child(6) .approve");
     By reject = By.cssSelector("app-accounts .active .p-datatable-wrapper tbody tr:nth-child(1) td:nth-child(6) .reject");
     By staffAccountsTab = By.cssSelector("app-accounts ul #staff-tab");
-    By btnEditRoleStaff = By.cssSelector("#staff tbody tr:nth-child(1) td:nth-child(6) button");
+    By btnEditRoleStaff = By.cssSelector("tr:nth-of-type(1) > td:nth-of-type(7) > .align-items-center.d-flex.justify-content-center > .action.edit.ng-star-inserted.p-button.p-component.p-element");
     By listStafRolesField = By.cssSelector("app-accounts .active .p-datatable-wrapper tbody tr:nth-child(1) td:nth-child(4) p-celleditor select");
-    By saveEditIcon = By.cssSelector("app-accounts .active .p-datatable-wrapper tbody tr:nth-child(1) td:nth-child(6) button:nth-child(1)");
+    By saveEditIcon = By.cssSelector(".p-button-icon.pi.pi-check");
     By resourcesTab = By.cssSelector("button#resources-tab");
     By chooseFileBtn = By.cssSelector(".p-button.p-component.p-element.p-fileupload-choose.p-ripple > .p-button-icon.p-button-icon-left.pi.pi-plus");
     By roleButton = By.xpath("/html/body/app-root/app-layout/div/app-admin-layout/div/div/div[2]/div/div[1]/app-accounts/div/div[2]/app-staff-account/p-table/div/div/table/tbody/tr[1]/td[4]/p-celleditor/select");
@@ -30,7 +30,7 @@ public class AdminPanelPage extends PageBase {
     // Account deletion selectors
     By allAccountsTab = By.cssSelector("app-accounts ul #All-tab");
     By userAccountsTab = By.cssSelector("app-accounts ul #reg-tab");
-    By deleteButtonFirstRow = By.cssSelector("tr:nth-of-type(1) > td:nth-of-type(6) > button[title='Delete User Account']");
+    By deleteButtonFirstRow = By.cssSelector("tr:nth-of-type(1) > td:nth-of-type(6) > button[title='Delete User Account'] > .p-button-icon.pi.pi-trash");
     By confirmDeleteButton = By.cssSelector(".p-confirm-dialog-accept");
     By cancelDeleteButton = By.cssSelector(".p-confirm-dialog-reject");
     By confirmationDialog = By.cssSelector(".p-confirm-dialog");
@@ -43,7 +43,37 @@ public class AdminPanelPage extends PageBase {
     By confirmRejectAlternative = By.cssSelector("p-confirmdialog .p-confirm-dialog-reject");
 
     public void approveSignUpRequest() {
+        int lastRow;
+        try {
+            By tableRows = By.cssSelector("app-accounts .active .p-datatable-wrapper tbody tr");
+            lastRow = webDriver.findElements(tableRows).size();
+        } catch (Exception e) {
+            lastRow = 0;
+        }
+        By approve = By.cssSelector(String.format("app-accounts .active .p-datatable-wrapper tbody tr:nth-child(%d) td:nth-child(6) .approve", lastRow));
         click(approve);
+    }
+
+    public By latestEmail() {
+        int lastRow;
+        try {
+            By tableRows = By.cssSelector("app-accounts .active .p-datatable-wrapper tbody tr");
+            lastRow = webDriver.findElements(tableRows).size();
+        } catch (Exception e) {
+            lastRow = 0;
+        }
+        return By.cssSelector(String.format("app-accounts .active .p-datatable-wrapper tbody tr:nth-child(%d) td:nth-child(2) span", lastRow));
+    }
+
+    public By latestName() {
+        int lastRow;
+        try {
+            By tableRows = By.cssSelector("app-accounts .active .p-datatable-wrapper tbody tr");
+            lastRow = webDriver.findElements(tableRows).size();
+        } catch (Exception e) {
+            lastRow = 0;
+        }
+        return By.cssSelector(String.format("app-accounts .active .p-datatable-wrapper tbody tr:nth-child(%d) td:nth-child(3) span", lastRow));
     }
 
     public void clickChooseFileButton() { click(chooseFileBtn); }
@@ -73,8 +103,10 @@ public class AdminPanelPage extends PageBase {
         click(staffAccountsTab);
     }
 
-    public void clickDeleteButton() {
-        click(deleteButtonFirstRow);
+    public void clickDeleteButton(int row) {
+        String selector = String.format("tr:nth-of-type(%d) > td:nth-of-type(6) > button[title='Delete User Account'] > .p-button-icon.pi.pi-trash", row);
+        By deleteButtonLastRow = By.cssSelector(selector);
+        click(deleteButtonLastRow);
     }
 
     public void confirmDelete() {
@@ -113,10 +145,6 @@ public class AdminPanelPage extends PageBase {
                 return false;
             }
         }
-    }
-
-    public String getFirstRowEmail() {
-        return getByGetText(email);
     }
 
     public String getFirstRowName() {

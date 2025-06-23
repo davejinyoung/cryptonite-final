@@ -59,6 +59,15 @@ public class HomePage extends PageBase {
         click(loginSubmitBtn);
     }
 
+    public boolean isLoginButtonVisible() {
+        try {
+            webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(loginBtn));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public void logout(){
         click(profileBtn);
         click(logoutBtn);

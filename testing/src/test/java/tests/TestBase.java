@@ -55,7 +55,7 @@ public class TestBase {
      */
     public void assertIsEqual(By by, String expected) {
         if (expected != null) {
-            webDriverWait = new WebDriverWait(webDriver, Duration.ofSeconds(30));
+            webDriverWait = new WebDriverWait(webDriver, Duration.ofSeconds(2));
             webDriverWait.until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOfElementLocated(by)));
             webElement = webDriver.findElement(by);
             webDriverWait.until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOf(webElement)));

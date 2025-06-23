@@ -27,6 +27,7 @@ public class FileVisibilityTest extends TestBase {
 
     /**
      * Tests admin file visibility to admin and employee users.
+     * Note: This test currently fails due to an existing bug in the source code.
      */
     @Test(priority = 0, description = "File uploaded by an admin is visible to admins and employees")
     public void testAdminFileVisibleToAdminAndEmployee() {
@@ -35,6 +36,7 @@ public class FileVisibilityTest extends TestBase {
 
         // Admin uploads file
         homePage.login(LoadProperties.env.getProperty("ADMIN_EMAIL"), LoadProperties.env.getProperty("ADMIN_PASSWORD"));
+        homePage.closeToastMsg();
         homePage.openAdminPanel();
         adminPanelPage.navigateResourceTab();
         adminPanelPage.clickChooseFileButton();
