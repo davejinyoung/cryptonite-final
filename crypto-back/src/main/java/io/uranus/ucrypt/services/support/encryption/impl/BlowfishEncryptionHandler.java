@@ -32,7 +32,7 @@ import java.util.Base64;
 public class BlowfishEncryptionHandler implements EncryptionKeyHandler, FileEncryptionHandler, TextEncryptionHandler {
 
     private static final int KEY_SIZE = 256;
-    private static final String ALGORITHM_NAME = "Blowfish";
+    private static final String ALGORITHM_NAME = "AES/GCM/NoPadding";
 
     @Override
     public GenerateEncryptionKeyResponseResource generateEncryptionKey() {

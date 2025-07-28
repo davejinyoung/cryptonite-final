@@ -92,10 +92,16 @@ public class EncryptionKeyService {
     public void createEncryptionKeyForCurrentUser(final CreateEncryptionKeyResource createEncryptionKeyResource) {
         final var userId = this.curretUser.getId();
         final var encryptionKeyValue = createEncryptionKeyResource.getValue();
+
         final var updateUserStatusQueryAsString = "INSERT INTO encryption_keys " +
                 "(created_at, updated_at, created_by_user_id, last_modified_by_user_id, user_id, value) " +
-                "VALUES (NOW(), NOW(), " + userId + ", " + userId + ", " + userId + ", '" + encryptionKeyValue + "');";
-        final var updateUserStatusQuery = this.entityManager.createNativeQuery(updateUserStatusQueryAsString, User.class);
+                "VALUES (NOW(), NOW(), :userId, :userId, :userId, :encryptionValue)";
+
+        final var updateUserStatusQuery = this.entityManager.createNativeQuery(updateUserStatusQueryAsString);
+
+        updateUserStatusQuery.setParameter("userId", userId);
+        updateUserStatusQuery.setParameter("encryptionValue", encryptionKeyValue);
+
         updateUserStatusQuery.executeUpdate();
     }
 }

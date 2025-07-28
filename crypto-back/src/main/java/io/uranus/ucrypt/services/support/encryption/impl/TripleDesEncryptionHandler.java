@@ -31,7 +31,7 @@ import java.util.Base64;
 public class TripleDesEncryptionHandler implements EncryptionKeyHandler, FileEncryptionHandler, TextEncryptionHandler {
 
     private static final int KEY_SIZE = 10;
-    private static final String ALGORITHM_NAME = "DESede";
+    private static final String ALGORITHM_NAME = "AES/GCM/NoPadding";
     private static final String ALTERNATIVE_ALGORITHM_NAME = "Triple Des";
 
     @Override
