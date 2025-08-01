@@ -87,6 +87,12 @@ public class FileService {
             throw new BusinessException(HttpStatus.BAD_REQUEST,
                     "File with this name already exists, please upload file with a different name");
         }
+
+        final var validFileDirectory = (Paths.get(file.getOriginalFilename()).resolve(Paths.get(this.FILES_BASIC_FOLDER_PATH)).startsWith(this.FILES_BASIC_FOLDER_PATH));
+        if (!validFileDirectory) {
+            throw new BusinessException(HttpStatus.BAD_REQUEST,
+            "Invalid file name. Please try again.");
+        }
     }
 
     private File constructFileEntity(final String uniqueNameForFile, final Path destinationFile, final String contentType) {
@@ -113,6 +119,10 @@ public class FileService {
 
         try {
             final Path file = rootLocation.resolve(filePath);
+            if (!file.normalize().startsWith(rootLocation)) {
+                throw new BusinessException(HttpStatus.INTERNAL_SERVER_ERROR,
+                        String.format("Could not read file with path: %s", filePath));
+            }
             final Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
                 return constructDownloadFileEntity(resource);
