@@ -116,23 +116,39 @@ public class FileService {
     @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
     public DownloadFileDto downloadFile(final String filePath) {
         final var rootLocation = Paths.get(this.FILES_BASIC_FOLDER_PATH);
+        final String sanitizedFilePath;
+
+        if (filePath.contains("../")) {
+            sanitizedFilePath = filePath.replaceAll("[ /. ]{2,}", "/");
+        } else if (filePath.contains("\\..")) {
+            sanitizedFilePath = filePath.replaceAll("[ \\. ]{2,}", "/");
+        } else {
+            sanitizedFilePath = filePath;
+        }
+
 
         try {
-            final Path file = rootLocation.resolve(filePath);
+            if (Paths.get(sanitizedFilePath).isAbsolute()) {
+                throw new BusinessException(HttpStatus.INTERNAL_SERVER_ERROR,
+                        String.format("Could not read file with path: %s -> %s", filePath, sanitizedFilePath));
+            }
+
+            final Path file = rootLocation.resolve(sanitizedFilePath);
             if (!file.normalize().startsWith(rootLocation)) {
                 throw new BusinessException(HttpStatus.INTERNAL_SERVER_ERROR,
-                        String.format("Could not read file with path: %s", filePath));
+                        String.format("Could not read file with path: %s -> %s", filePath, sanitizedFilePath));
             }
+
             final Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
                 return constructDownloadFileEntity(resource);
             } else {
                 throw new BusinessException(HttpStatus.INTERNAL_SERVER_ERROR,
-                        String.format("Could not read file with path: %s", filePath));
+                        String.format("Could not read file with path: %s -> %s", filePath, sanitizedFilePath));
             }
         } catch (final MalformedURLException e) {
             throw new BusinessException(HttpStatus.INTERNAL_SERVER_ERROR,
-                    String.format("Could not read file with path: %s", filePath));
+                    String.format("Could not read file with path: %s -> %s", filePath, sanitizedFilePath));
         }
     }
 
